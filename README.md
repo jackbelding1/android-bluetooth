@@ -62,8 +62,6 @@ The application allows enabling/disabling Bluetooth and making your device disco
 - **Dagger-Hilt:** Simplifies dependency injection, automatically handling component lifecycles.
 - **Android Bluetooth API:** Manages Bluetooth operations, including scanning for devices, connecting, and data transmission.
 
-## Contributions
 
-Contributions are welcome! Please read the `CONTRIBUTING.md` for how to contribute to this project.
 
 
