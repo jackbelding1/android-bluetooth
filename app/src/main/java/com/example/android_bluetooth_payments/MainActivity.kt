@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -42,13 +43,55 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        bluetoothManager.registerConnectionReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        bluetoothManager.unregisterConnectionReceiver()
+    }
+
     @Composable
     fun BluetoothScreen(bluetoothViewModel: BluetoothViewModel) {
         val discoveredDevices by bluetoothViewModel.discoveredDevices.collectAsState()
+        val connectedDevice by bluetoothViewModel.connectionState.collectAsState()
+        var discoverableMessage by remember { mutableStateOf("") }
+
         Column(modifier = Modifier.padding(16.dp)) {
+            Button(onClick = {
+                bluetoothViewModel.makeDeviceDiscoverable()
+                discoverableMessage = "Device is now discoverable"
+            }) {
+                Text("Make Discoverable")
+            }
+            if (discoverableMessage.isNotEmpty()) {
+                Text(discoverableMessage)
+            }
+
             Button(onClick = { bluetoothViewModel.startDiscovery() }) {
                 Text("Start Discovery")
             }
+            Log.d("Compose", "Device: ${connectedDevice?.name}")
+            connectedDevice?.let {
+                if (ActivityCompat.checkSelfPermission(
+                        LocalContext.current,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return
+                }
+                Text("Connected to: ${it.name}")
+            } ?: Text("Not connected to any device")
+
             // Dynamically list discovered devices
             ListDiscoveredDevices(devices = discoveredDevices)
         }

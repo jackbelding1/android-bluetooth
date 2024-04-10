@@ -18,20 +18,36 @@ class BluetoothViewModel @Inject constructor(
     private val _discoveredDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
     val discoveredDevices: StateFlow<List<BluetoothDevice>> = _discoveredDevices.asStateFlow()
 
+    private val _connectionState = MutableStateFlow<BluetoothDevice?>(null)
+    val connectionState: StateFlow<BluetoothDevice?> = _connectionState.asStateFlow()
+
     init {
-        // Correctly register the ViewModel as the callback listener for Bluetooth discovery events
         bluetoothManager.registerDiscoveryCallback(object : BluetoothManager.DiscoveryCallback {
             override fun onDeviceDiscovered(device: BluetoothDevice) {
-                // Safely update the StateFlow with the new device
-                _discoveredDevices.value = _discoveredDevices.value + device
+                // Implementation for when a device is discovered
             }
+
             override fun onDiscoveryFinished() {
-                // Discovery finished event can be used to update UI or log, if necessary
+                // Implementation for when discovery is finished
+            }
+        })
+
+        bluetoothManager.registerConnectionStateCallback(object : BluetoothManager.ConnectionStateCallback {
+            override fun onDeviceConnected(device: BluetoothDevice) {
+                _connectionState.value = device
+            }
+
+            override fun onDeviceDisconnected(device: BluetoothDevice) {
+                _connectionState.value = null
             }
         })
     }
     private fun addDiscoveredDevice(device: BluetoothDevice) {
         _discoveredDevices.value = _discoveredDevices.value + listOf(device)
+    }
+
+    fun makeDeviceDiscoverable() {
+        bluetoothManager.makeDiscoverable()
     }
 
     fun startDiscovery() {
