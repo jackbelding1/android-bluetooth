@@ -1,65 +1,69 @@
-Android Bluetooth Application
-Project Overview
+# Android Bluetooth Application
+
+## Project Overview
 
 This project demonstrates how to build an Android application using the Model-View-ViewModel (MVVM) architecture with Jetpack Compose for the UI, Dagger-Hilt for dependency injection, and Android's Bluetooth APIs for managing Bluetooth connections and data transmission.
-Key Features
 
-    Bluetooth Discovery: Scan for nearby Bluetooth devices.
-    Bluetooth Management: Enable/disable Bluetooth and make the device discoverable.
-    MVVM Architecture: Organizes the codebase with a clear separation of concerns.
-    Jetpack Compose: Modern declarative UI toolkit used to build the interface.
-    Dagger-Hilt: Provides a standard way to incorporate Dagger dependency injection into an Android application.
+## Key Features
 
-Getting Started
-Prerequisites
+- **Bluetooth Discovery:** Scan for nearby Bluetooth devices.
+- **Bluetooth Management:** Enable/disable Bluetooth and make the device discoverable.
+- **MVVM Architecture:** Organizes the codebase with a clear separation of concerns.
+- **Jetpack Compose:** Modern declarative UI toolkit used to build the interface.
+- **Dagger-Hilt:** Provides a standard way to incorporate Dagger dependency injection into an Android application.
 
-    Android Studio Arctic Fox | 2020.3.1 or newer
-    Kotlin plugin compatible with your Android Studio version
-    An Android device or emulator with Bluetooth capabilities
+## Getting Started
 
-Setup
+### Prerequisites
 
-    Clone the Repository
+- Android Studio Arctic Fox | 2020.3.1 or newer
+- Kotlin plugin compatible with your Android Studio version
+- An Android device or emulator with Bluetooth capabilities
 
-    Clone this repository to your local machine using Android Studio or your preferred Git tools.
+### Setup
 
-    bash
+1. **Clone the Repository**
+   
+   Clone this repository to your local machine using Android Studio or your preferred Git tools.
 
-    git clone https://github.com/jackbelding1/android-bluetooth.git
+https://github.com/jackbelding1/android-bluetooth
 
-    Open the Project in Android Studio
 
-    Open Android Studio, select "Open an Existing Project," and navigate to the directory where you cloned the project.
+2. **Open the Project in Android Studio**
 
-    Sync Gradle
+Open Android Studio, select "Open an Existing Project," and navigate to the directory where you cloned the project.
 
-    Allow Android Studio to sync the project with Gradle files. This process might take a few moments.
+3. **Sync Gradle**
 
-    Configure an Emulator or Connect a Device
+Allow Android Studio to sync the project with Gradle files. This process might take a few moments.
 
-    Set up an Android emulator or connect a physical Android device to run the application. Ensure the device or emulator has Bluetooth capabilities.
+4. **Configure an Emulator or Connect a Device**
 
-Running the Application
+Set up an Android emulator or connect a physical Android device to run the application. Ensure the device or emulator has Bluetooth capabilities.
 
-    Enable Bluetooth & Permissions
+### Running the Application
 
-    When running the app for the first time, you will be prompted to enable Bluetooth and grant necessary permissions (e.g., location permissions for Bluetooth discovery).
+1. **Enable Bluetooth & Permissions**
 
-    Discover Devices
+When running the app for the first time, you will be prompted to enable Bluetooth and grant necessary permissions (e.g., location permissions for Bluetooth discovery).
 
-    Use the app's interface to discover nearby Bluetooth devices. Make sure other devices are discoverable.
+2. **Discover Devices**
 
-    Manage Connections
+Use the app's interface to discover nearby Bluetooth devices. Make sure other devices are discoverable.
 
-    The application allows enabling/disabling Bluetooth and making your device discoverable to others.
+3. **Manage Connections**
 
-Architecture & Libraries
+The application allows enabling/disabling Bluetooth and making your device discoverable to others.
 
-    MVVM Architecture: Utilizes ViewModel components to separate UI logic from business logic, promoting a more maintainable and testable codebase.
-    Jetpack Compose: Simplifies UI development with a modern, declarative approach.
-    Dagger-Hilt: Simplifies dependency injection, automatically handling component lifecycles.
-    Android Bluetooth API: Manages Bluetooth operations, including scanning for devices, connecting, and data transmission.
+## Architecture & Libraries
 
-Contributions
+- **MVVM Architecture:** Utilizes ViewModel components to separate UI logic from business logic, promoting a more maintainable and testable codebase.
+- **Jetpack Compose:** Simplifies UI development with a modern, declarative approach.
+- **Dagger-Hilt:** Simplifies dependency injection, automatically handling component lifecycles.
+- **Android Bluetooth API:** Manages Bluetooth operations, including scanning for devices, connecting, and data transmission.
 
-Contributions are welcome! Please read the CONTRIBUTING.md for how to contribute to this project.
+## Contributions
+
+Contributions are welcome! Please read the `CONTRIBUTING.md` for how to contribute to this project.
+
+
