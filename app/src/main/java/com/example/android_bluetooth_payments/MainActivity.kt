@@ -36,8 +36,29 @@ class MainActivity : ComponentActivity() {
     private val requestBluetoothPermissionCode = 101
     private val discoveredDevices = mutableListOf<BluetoothDevice>()
 
+    companion object {
+        private const val REQUEST_CODE_BLUETOOTH_ADVERTISE = 101 // Arbitrary request code
+    }
+
+    private fun requestBluetoothAdvertisePermission() {
+        // Check if the Bluetooth advertise permission has already been granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            // If not, request the permission
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.BLUETOOTH_ADVERTISE),
+                REQUEST_CODE_BLUETOOTH_ADVERTISE)
+        } else {
+            // Permission has already been granted; you can start Bluetooth advertising here if needed
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestBluetoothAdvertisePermission()
         setContent {
             BluetoothScreen(bluetoothViewModel)
         }

@@ -6,15 +6,21 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
+import android.bluetooth.le.AdvertiseCallback
+import android.bluetooth.le.AdvertiseData
+import android.bluetooth.le.AdvertiseSettings
+import android.bluetooth.le.BluetoothLeAdvertiser
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.ParcelUuid
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -145,7 +151,50 @@ class BluetoothManager @Inject constructor(@ApplicationContext private val conte
         }
     }
 
+    fun startBleAdvertising() {
+        val advertiser: BluetoothLeAdvertiser? = bluetoothAdapter?.bluetoothLeAdvertiser
+        val serviceUuid = UUID.fromString("123e4567-e89b-12d3-a456-426614174000") // Replace with your unique UUID
+
+        val advertiseSettings = AdvertiseSettings.Builder()
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+            .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
+            .setConnectable(true)
+            .build()
+
+        val advertiseData = AdvertiseData.Builder()
+            .addServiceUuid(ParcelUuid(serviceUuid))
+            .setIncludeDeviceName(false)
+            .build()
+
+        val advertiseCallback = object : AdvertiseCallback() {
+            override fun onStartSuccess(settingsInEffect: AdvertiseSettings?) {
+                Log.d("BluetoothManager", "BLE Advertising started successfully")
+            }
+
+            override fun onStartFailure(errorCode: Int) {
+                Log.e("BluetoothManager", "BLE Advertising failed: $errorCode")
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.BLUETOOTH_ADVERTISE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        advertiser?.startAdvertising(advertiseSettings, advertiseData, advertiseCallback)
+    }
+
     fun makeDiscoverable() {
+        startBleAdvertising() // Call the BLE advertising method here
         val discoverableIntent: Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
             putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Add this line
